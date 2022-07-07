@@ -1,5 +1,4 @@
 export const records = [
-
     {
         "id"       :   3,
         "title"    :'LP1',
@@ -25,7 +24,7 @@ export const records = [
         "title"          :'Double Cup',
         "artist"         :'DJ Rashad',
         "year"           :'2013',
-        "stock"          :3,
+        "stock"          :0,
         "comment"        : "DJ Rashad was a singular genius and one of footwork’s architects, who shared credit for this unselfishly with other members of his inimitable Teklife crew",
         "pitchforkPos"   :20
     },
@@ -65,7 +64,7 @@ export const records = [
         "title"          :'Beyoncé',
         "artist"         :'Beyoncé',
         "year"           :'2013',
-        "stock"          :3,
+        "stock"          :0,
         "pitchforkPos"   :3,
         "comment"        : "“We be all night,” Beyoncé proclaimed on “Drunk in Love,” the most meme-ready track on her self-titled album. She was singing about riding her husband’s big body like a surfboardt, but she may as well have been referring to the way listeners gulped down Beyoncé, which dropped at midnight on a Thursday and seemed to envelop all of social media into the dawn hours while also revolutionizing how albums are conceived and released.",
         "coverUrl"       :'https://media.pitchfork.com/photos/5d89069e5d366d000838ce6e/master/w_1600%2Cc_limit/Beyonce%2525CC%252581-Beyonce%2525CC%252581.jpg'
