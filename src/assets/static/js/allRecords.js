@@ -4,7 +4,7 @@ export const records = [
         "title"    :'LP1',
         "artist"   :'FKA twigs',
         "year"     : '2014',
-        "stock"    : 1,
+        "stock"    : 0,
         "pitchforkPos"   : 28,
         "comment"      : "FKA twigs is already so fully developed as an artist that her voice—wispy, breathy, disarmingly operatic—can sometimes be overshadowed by her astonishing performances. They function as demonstrations of her dancer’s command of her body, living art installations, and full-spectrum auditory experience—together, something like live 4DX",
         "coverUrl" : 'https://media.pitchfork.com/photos/5d7a863e0db1d10008f20007/master/w_1600%2Cc_limit/FKA-twigs-Two-Weeks.jpeg'

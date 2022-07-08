@@ -29,54 +29,86 @@
     <main role="main" class="fluid-container m-4">
       <div class="row">
         <div class="col-8">
-          <div class="card mb-3">
-            <div class="row no-gutters">
-              <div class="col-m-4 m-2">
+          <div
+            v-for="(record, id) in records"
+            :key="record.id"
+            class="card mb-3"
+            style="max-width: 720px"
+            @click="handleFavorite(id)"
+          >
+            <div class="row g-0">
+              <div class="col-md-4">
                 <img
-                  height="150px"
-                  src="https://www.terreseteaux.fr/images/resized/error.png?format=serviceThumbnail&width=280&height=280&size=1&cover=true&extension=jpeg"
+                  :src="record.coverUrl"
+                  class="img-fluid rounded-start"
                   alt="..."
                 />
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">artist</h5>
-                  <p class="card-text">title (year)</p>
-                  <p class="card-text"></p>
-                  <p class="card-text">✨ FAVORI ✨</p>
+                  <h5 class="card-title">
+                    #{{ id }} ~ {{ record.title }} {{ record.year }}
+                    {{ record.isFavorite ? "💓" : "" }}
+                  </h5>
+                  <h6 class="card-title">{{ record.artist }}</h6>
+                  <p class="card-text">{{ record.comment }}</p>
+                  <p class="card-text">
+                    <small class="text-muted">{{ record.pitchforkPos }}</small>
+                  </p>
                 </div>
               </div>
             </div>
-
-            <div class="card-footer">
-              <button type="button" class="btn btn-info">[+]</button>
-              <button type="button" class="btn btn-info mx-4">[-]</button>
-              <small class="text-white"> en Stock </small>
+            <div class="card-footer g-0">
+              <button
+                @click.stop="incrementStock(id)"
+                type="button"
+                class="btn btn-info"
+              >
+                [+]
+              </button>
+              <button
+                @click.stop="decrementStock(id)"
+                type="button"
+                class="btn btn-info mx-4"
+              >
+                [-]
+              </button>
+              <small class=""> {{ record.stock }} en Stock </small>
             </div>
           </div>
         </div>
         <div class="col-4">
-          <div class="card bg-light mb-3" style="max-width: 18rem;">
-            <div class="card-header">Infos albums (<strong></strong>)</div>
+          <div class="card bg-light mb-3" style="max-width: 18rem">
+            <div class="card-header">
+              Infos albums (<strong>{{ records.length }}</strong
+              >)
+            </div>
             <div class="card-body">
               <h5 class="card-title">Option selec:</h5>
-              <select class="custom-select">
+              <select
+                class="form-select"
+                v-model="sortOption"
+                @change="reorderRecords"
+              >
                 <option value="posAsc">Pitchfork Pos ⬆</option>
                 <option value="posDesc">Pitchfork Pos ⬇</option>
                 <option value="byYear">Année de sortie</option>
               </select>
               <p class="card-text">Some sorting options</p>
               <h5 class="card-title">Filter</h5>
-              <div class="custom-control custom-switch">
+              <div class="form-check form-switch">
                 <input
+                  class="form-check-input"
                   type="checkbox"
-                  class="custom-control-input"
-                  id="customSwitch1"
+                  id="flexSwitchCheckDefault"
+                  v-model="onlyInStock"
+                  @change="onlyAvailableFilter"
                 />
-                <label class="custom-control-label" for="customSwitch1"
-                  >Que ceux disponible</label
+                <label class="form-check-label" for="flexSwitchCheckDefault"
+                  >Que ceux en stock</label
                 >
               </div>
+
               <div></div>
             </div>
           </div>
@@ -93,12 +125,61 @@ export default {
   name: "App",
   components: {},
   data: () => ({
-    records
+    records,
+    onlyInStock: false,
+    sortOption: "",
   }),
-  methods: {},
+  methods: {
+    incrementStock(id) {
+      this.records[id].stock++;
+    },
+    decrementStock(id) {
+      this.records[id].stock--;
+    },
+    onlyAvailableFilter() {
+      if (this.onlyInStock) {
+        this.records = this.records.filter((record) => record.stock > 0);
+      } else {
+        this.records = records;
+        console.log("je voudrais à nouveau tous les albums");
+      }
+      console.log("! changement filtre ", this.onlyInStock);
+    },
+    reorderRecords() {
+      //         /posAsc
+      // posDesc
+      // byYear
+
+      if (this.sortOption == "posAsc") {
+        this.records.sort((a, b) => {
+          return a.pitchforkPos - b.pitchforkPos;
+        });
+      }
+      if (this.sortOption == "posDesc") {
+        this.records.sort((a, b) => {
+          return b.pitchforkPos - a.pitchforkPos;
+        });
+      }
+      if (this.sortOption == "byYear") {
+        this.records.sort((a, b) => {
+          return +a.year - +b.year;
+        });
+      }
+
+      console.log("changement tri ", this.sortOption);
+    },
+    handleFavorite(id) {
+      if (this.records[id].isFavorite) {
+        this.records[id].isFavorite = false;
+      } else {
+        this.$set(this.records[id], "isFavorite", true);
+      }
+      console.log("had to favorite ", id);
+    },
+  },
   created() {
     console.log("hey Created");
-  }
+  },
 };
 </script>
 <style lang="scss">
@@ -106,5 +187,6 @@ export default {
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
 .negatif {
+  background-color: rgb(214, 95, 162);
 }
 </style>
